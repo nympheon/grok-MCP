@@ -106,16 +106,15 @@ GitHub 根目录文档以 `README.zh.md` 为完整中文主文档，`README.md` 
 顺序不可颠倒：
 
 1. 本地测试和 dry-run 全部通过；
-2. 无 secrets 文件部署到现有 `grokmcp`；
-3. 线上中文页、现有登录和真实搜索验收通过；
-4. 完整项目推送到 GitHub `main`；
-5. Cloudflare Workers Builds 关联到 `main`；
-6. 推送一次说明性的空提交，验证自动构建、部署和 Secret 保留；
-7. 从 GitHub 全新 clone 后再次通过完整验证；
-8. 删除临时 clone；
-9. 永久删除工作目录 `/Users/qiaofanxing/Documents/Codex/2026-08-12/new-chat-2/work/grok-MCP`；
-10. 删除 `outputs` 中旧的源码归档、SHA-256 文件和本地交接文档；
-11. 最后确认 GitHub 仓库、Cloudflare Worker、Durable Object 和公开 `/healthz` 仍正常。
+2. 完整项目推送到 GitHub `main`；
+3. Cloudflare Workers Builds 关联到 `main`；
+4. 推送一次说明性的空提交，由自动构建执行无 secrets 文件的 `npm run deploy`；
+5. 线上中文页、现有登录、真实搜索和 Secret 保留验收通过；
+6. 从 GitHub 全新 clone 后再次通过完整验证；
+7. 删除临时 clone；
+8. 永久删除工作目录 `/Users/qiaofanxing/Documents/Codex/2026-08-12/new-chat-2/work/grok-MCP`；
+9. 删除 `outputs` 中旧的源码归档、SHA-256 文件和本地交接文档；
+10. 最后确认 GitHub 仓库、Cloudflare Worker、Durable Object 和公开 `/healthz` 仍正常。
 
 本地删除不触碰 Cloudflare Worker、Durable Object、运行时 Secret、GitHub 仓库或其
 提交历史。
