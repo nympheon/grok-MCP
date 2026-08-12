@@ -15,7 +15,7 @@ export const APP_VERSION = "0.3.0";
 
 export const TOKEN_REFRESH_SKEW_MS = 120_000;
 export const PENDING_AUTH_TTL_MS = 600_000;
-export const HTTP_TIMEOUT_MS = 60_000;
+export const HTTP_TIMEOUT_MS = 180_000;
 export const MAX_RESPONSE_BYTES = 2 * 1024 * 1024;
 export const MAX_MCP_REQUEST_BYTES = 128 * 1024;
 export const MAX_ADMIN_FORM_BYTES = 16 * 1024;
