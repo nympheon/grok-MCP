@@ -1,0 +1,41 @@
+{
+  "name": "grok-x-search-mcp",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Unofficial private-use Grok search MCP server for Cloudflare Workers.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "check": "biome ci ./src ./test ./test-worker ./scripts ./test-node",
+    "format": "biome check --write ./src ./test ./test-worker ./scripts ./test-node",
+    "typecheck": "tsc --noEmit",
+    "types": "WRANGLER_LOG_PATH=.wrangler-logs wrangler types --env-interface Env",
+    "test:unit": "vitest run --config vitest.config.ts",
+    "test:worker": "WRANGLER_LOG_PATH=.wrangler-logs vitest run --config vitest.worker.config.ts",
+    "test:node": "node --test test-node/*.test.mjs",
+    "test": "npm run test:unit && npm run test:worker && npm run test:node",
+    "dev": "WRANGLER_LOG_PATH=.wrangler-logs wrangler dev --env-file .secrets.local",
+    "deploy:dry": "WRANGLER_LOG_PATH=.wrangler-logs wrangler deploy --dry-run",
+    "deploy": "WRANGLER_LOG_PATH=.wrangler-logs wrangler deploy",
+    "deploy:with-secrets": "WRANGLER_LOG_PATH=.wrangler-logs wrangler deploy --secrets-file .secrets.local",
+    "secrets:init": "node scripts/secrets.mjs init .secrets.local",
+    "url": "node scripts/secrets.mjs url",
+    "admin-url": "node scripts/secrets.mjs admin-url"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "2.0.0",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.8",
+    "@cloudflare/vitest-pool-workers": "0.21.1",
+    "@cloudflare/workers-types": "5.20260812.1",
+    "@types/node": "22.20.1",
+    "typescript": "7.0.2",
+    "vitest": "4.1.10",
+    "wrangler": "4.121.0"
+  }
+}
