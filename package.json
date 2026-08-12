@@ -1,6 +1,6 @@
 {
   "name": "grok-x-search-mcp",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "description": "Unofficial private-use Grok search MCP server for Cloudflare Workers.",
   "license": "MIT",

@@ -11,7 +11,7 @@ export const XAI_OAUTH_PLAN = "generic";
 
 export const XAI_API_RESPONSES_URL = "https://api.x.ai/v1/responses";
 
-export const APP_VERSION = "0.2.0";
+export const APP_VERSION = "0.3.0";
 
 export const TOKEN_REFRESH_SKEW_MS = 120_000;
 export const PENDING_AUTH_TTL_MS = 600_000;

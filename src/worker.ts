@@ -25,6 +25,15 @@ class BodyReadError extends Error {
   }
 }
 
+function withAdminSuccess(
+  result: ToolResult<MessageData>,
+  message: string,
+): ToolResult<MessageData> {
+  // Durable Object messages are also consumed by non-HTML code. Localize only
+  // the administration boundary while preserving stable error codes.
+  return result.ok ? { ok: true, message } : result;
+}
+
 function state(env: Env): DurableObjectStub<GrokState> {
   return env.GROK_STATE.get(env.GROK_STATE.idFromName("single-user"));
 }
@@ -98,7 +107,7 @@ function adminInput(
     adminBasePath,
     mcpUrl: `${requestUrl.origin}/t/${env.MCP_URL_TOKEN}/mcp`,
     model: resolveModel(env.GROK_X_SEARCH_MODEL),
-    workerVersion: env.CF_VERSION_METADATA?.id ?? "Not available",
+    workerVersion: env.CF_VERSION_METADATA?.id ?? "暂无",
     status,
     ...extra,
   };
@@ -132,13 +141,13 @@ async function handleAdmin(
   // URL-token authentication happens in fetch() before this function. Host and
   // Origin validation then protects the bearer URL from cross-site form use.
   const rejection = headerRejection(request, url);
-  if (rejection) return adminTextResponse("Forbidden", rejection.status);
+  if (rejection) return adminTextResponse("禁止访问", rejection.status);
 
   if (action === "view") {
-    if (request.method !== "GET") return adminTextResponse("Method not allowed", 405, "GET");
+    if (request.method !== "GET") return adminTextResponse("请求方法不允许", 405, "GET");
     return renderAdmin(url, env, adminBasePath);
   }
-  if (request.method !== "POST") return adminTextResponse("Method not allowed", 405, "POST");
+  if (request.method !== "POST") return adminTextResponse("请求方法不允许", 405, "POST");
 
   let form: URLSearchParams;
   try {
@@ -146,11 +155,7 @@ async function handleAdmin(
   } catch (error) {
     const status = error instanceof BodyReadError ? error.status : 400;
     return adminTextResponse(
-      status === 413
-        ? "Request body too large"
-        : status === 415
-          ? "Unsupported media type"
-          : "Malformed form",
+      status === 413 ? "请求体过大" : status === 415 ? "不支持的媒体类型" : "表单格式无效",
       status,
     );
   }
@@ -158,27 +163,29 @@ async function handleAdmin(
   const grok = state(env);
   if (action === "login") {
     if (!hasOnlyFields(form, []) || [...form.keys()].length !== 0) {
-      return adminTextResponse("Malformed form", 400);
+      return adminTextResponse("表单格式无效", 400);
     }
     return renderAdmin(url, env, adminBasePath, { login: await grok.startLogin() });
   }
   if (action === "callback") {
     const callbackUrls = form.getAll("callback_url");
     if (!hasOnlyFields(form, ["callback_url"]) || callbackUrls.length !== 1) {
-      return adminTextResponse("Malformed form", 400);
+      return adminTextResponse("表单格式无效", 400);
     }
     return renderAdmin(url, env, adminBasePath, {
-      notice: await grok.completeLogin(callbackUrls[0] ?? ""),
+      notice: withAdminSuccess(await grok.completeLogin(callbackUrls[0] ?? ""), "Grok 登录成功。"),
     });
   }
 
   if (!hasOnlyFields(form, ["confirm"]) || form.getAll("confirm").length !== 1) {
-    return adminTextResponse("Malformed form", 400);
+    return adminTextResponse("表单格式无效", 400);
   }
   if (form.get("confirm") !== "yes") {
-    return adminTextResponse("Logout confirmation required", 400);
+    return adminTextResponse("必须确认退出登录", 400);
   }
-  return renderAdmin(url, env, adminBasePath, { notice: await grok.logout() });
+  return renderAdmin(url, env, adminBasePath, {
+    notice: withAdminSuccess(await grok.logout(), "已删除 Grok 登录凭据和待处理的登录请求。"),
+  });
 }
 
 async function handleMcp(request: Request, env: Env, url: URL): Promise<Response> {
