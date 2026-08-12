@@ -188,7 +188,8 @@ describe("Worker HTTP boundary", () => {
 
     expect(response.status).toBe(200);
     expect(response.headers.get("cache-control")).toBe("no-store");
-    expect(html).toContain("Signed out");
+    expect(html).toContain('lang="zh-CN"');
+    expect(html).toContain("已退出");
     expect(html).toContain(baseUrl);
 
     const wrong = await exports.default.fetch(
@@ -205,7 +206,7 @@ describe("Worker HTTP boundary", () => {
     const started = await adminRequest("/login", { method: "POST" });
     const startHtml = await started.text();
     expect(started.status).toBe(200);
-    expect(startHtml).toContain("Open Grok authorization");
+    expect(startHtml).toContain("打开 Grok 授权页面");
     expect(startHtml).toContain("auth.x.ai/oauth2/authorize");
     expect(startHtml).not.toContain("grok_auth_callback");
 
@@ -216,16 +217,14 @@ describe("Worker HTTP boundary", () => {
       }).toString(),
     });
     expect(callback.status).toBe(200);
-    expect(await callback.text()).toContain("unexpected origin or path");
+    expect(await callback.text()).toContain("提交的回调 URL 无效");
 
     const loggedOut = await adminRequest("/logout", {
       method: "POST",
       body: "confirm=yes",
     });
     expect(loggedOut.status).toBe(200);
-    expect(await loggedOut.text()).toContain(
-      "Grok credentials and pending login attempts were removed.",
-    );
+    expect(await loggedOut.text()).toContain("已删除 Grok 登录凭据");
   });
 
   it("rejects unsafe administration methods, origins, content types, and forms", async () => {
@@ -243,13 +242,23 @@ describe("Worker HTTP boundary", () => {
       method: "POST",
       body: "callback_url=one&callback_url=two",
     });
+    const unconfirmedLogout = await adminRequest("/logout", {
+      method: "POST",
+      body: "confirm=no",
+    });
 
     expect(wrongMethod.status).toBe(405);
+    expect(await wrongMethod.text()).toBe("请求方法不允许");
     expect(wrongOrigin.status).toBe(403);
+    expect(await wrongOrigin.text()).toBe("禁止访问");
     expect(wrongType.status).toBe(415);
+    expect(await wrongType.text()).toBe("不支持的媒体类型");
     expect(wrongType.headers.get("cache-control")).toBe("no-store");
     expect(wrongType.headers.get("content-security-policy")).toContain("default-src 'none'");
     expect(duplicate.status).toBe(400);
+    expect(await duplicate.text()).toBe("表单格式无效");
+    expect(unconfirmedLogout.status).toBe(400);
+    expect(await unconfirmedLogout.text()).toBe("必须确认退出登录");
   });
 
   it("rejects oversized administration and MCP bodies before parsing", async () => {
@@ -269,6 +278,7 @@ describe("Worker HTTP boundary", () => {
     );
 
     expect(oversizedAdmin.status).toBe(413);
+    expect(await oversizedAdmin.text()).toBe("请求体过大");
     expect(oversizedMcp.status).toBe(413);
   });
 
