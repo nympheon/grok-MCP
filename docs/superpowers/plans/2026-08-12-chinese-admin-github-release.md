@@ -168,9 +168,9 @@ git commit -m "feat: localize Worker administration in Chinese"
 - Create: `SECURITY.md`
 - Modify: `package.json`
 - Modify: `.github/workflows/ci.yml`
-- Modify: `README.zh.md`
-- Modify: `README.md`
-- Modify: `README.ja.md`
+- Modify: `README.md`（改为唯一中文说明）
+- Delete: `README.zh.md`
+- Delete: `README.ja.md`
 - Modify: `AGENTS.md`
 
 **Interfaces:**
@@ -183,7 +183,7 @@ Add `"verify": "npm run types && npm run check && npm run typecheck && npm test 
 
 - [ ] **Step 2: Rewrite the Chinese primary documentation**
 
-`README.zh.md` must contain: project scope; architecture/data flow; supported and unsupported behavior; MCP parameter mapping and limits; free-resource boundary; first deployment; Chinese admin/login; ChatGPT connection; GitHub Actions/Workers Builds; model changes; ordinary upgrade; secret rotation; rollback; troubleshooting; security; GitHub recovery; license/disclaimer.
+`README.md` must contain in Chinese: project scope; architecture/data flow; supported and unsupported behavior; MCP parameter mapping and limits; free-resource boundary; first deployment; Chinese admin/login; ChatGPT connection; GitHub Actions/Workers Builds; model changes; ordinary upgrade; secret rotation; rollback; troubleshooting; security; GitHub recovery; license/disclaimer.
 
 Document that X Search has no `max_results`, returns synthesized text/citations rather than raw post pages, and cannot guarantee a fixed inspected-post count. Include 8,000 characters, 20 handles, 5 domains, 60 seconds, 2 MiB, and 128 KiB. Replace archive recovery with:
 
@@ -196,9 +196,9 @@ npm run verify
 
 Document Workers Builds settings: branch `main`, root `/`, build `npm run verify`, deploy `npm run deploy`.
 
-- [ ] **Step 3: Synchronize English and Japanese documentation**
+- [ ] **Step 3: Keep one Chinese repository guide**
 
-Update `README.md` and `README.ja.md` with the Chinese Worker UI, GitHub recovery, shared verification, automatic secret-preserving Workers Builds deployment, X/Web parameter mapping, and absence of a deterministic post count.
+Use `README.md` as the only repository guide and delete `README.zh.md` and `README.ja.md`, as explicitly requested by the user. Document the Chinese Worker UI, GitHub recovery, shared verification, automatic secret-preserving Workers Builds deployment, X/Web parameter mapping, and absence of a deterministic post count.
 
 - [ ] **Step 4: Rewrite maintainer guidance and add security policy**
 
@@ -207,7 +207,7 @@ Update `AGENTS.md` so GitHub `main` is canonical, Workers Builds is routine depl
 - [ ] **Step 5: Validate docs and automation**
 
 ```bash
-rg -n "source archive|源码归档|source-archive|Start a new Grok login|Signed in" README.md README.zh.md README.ja.md AGENTS.md SECURITY.md
+rg -n "source archive|源码归档|source-archive|Start a new Grok login|Signed in" README.md AGENTS.md SECURITY.md
 npm run check
 ```
 
@@ -216,7 +216,7 @@ Expected: no obsolete archive workflow or old English Chinese-UI labels remain i
 - [ ] **Step 6: Commit documentation and CI**
 
 ```bash
-git add .node-version SECURITY.md package.json .github/workflows/ci.yml README.md README.zh.md README.ja.md AGENTS.md
+git add .node-version SECURITY.md package.json .github/workflows/ci.yml README.md README.zh.md README.ja.md AGENTS.md docs/superpowers
 git commit -m "docs: make GitHub the complete deployment source"
 ```
 
@@ -254,7 +254,7 @@ git diff HEAD~3..HEAD --stat
 git log --oneline --decorate -8
 ```
 
-Review full `src/admin.ts`, `src/worker.ts`, `wrangler.jsonc`, `package.json`, CI, and all READMEs. Confirm no unrelated protocol, OAuth, storage, or search behavior changed.
+Review full `src/admin.ts`, `src/worker.ts`, `wrangler.jsonc`, `package.json`, CI, and the Chinese README. Confirm no unrelated protocol, OAuth, storage, or search behavior changed.
 
 - [ ] **Step 4: Scan worktree and history for forbidden material**
 
@@ -295,7 +295,7 @@ Set a concise description, homepage `https://grokmcp.aemeath.workers.dev/healthz
 
 - [ ] **Step 4: Verify Actions and remote contents**
 
-Use `gh run list` and `gh run watch <run-id> --exit-status`. Verify `README.zh.md`, `SECURITY.md`, `wrangler.jsonc`, source, tests, and workflow through `gh api`; confirm ignored paths are absent.
+Use `gh run list` and `gh run watch <run-id> --exit-status`. Verify `README.md`, `SECURITY.md`, `wrangler.jsonc`, source, tests, and workflow through `gh api`; confirm ignored paths are absent.
 
 ---
 

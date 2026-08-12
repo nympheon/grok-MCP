@@ -2,7 +2,7 @@
   "name": "grok-x-search-mcp",
   "version": "0.3.0",
   "private": true,
-  "description": "Unofficial private-use Grok search MCP server for Cloudflare Workers.",
+  "description": "部署在 Cloudflare Workers 上的非官方单用户 Grok 搜索 MCP 服务。",
   "license": "MIT",
   "type": "module",
   "engines": {
@@ -17,6 +17,7 @@
     "test:worker": "WRANGLER_LOG_PATH=.wrangler-logs vitest run --config vitest.worker.config.ts",
     "test:node": "node --test test-node/*.test.mjs",
     "test": "npm run test:unit && npm run test:worker && npm run test:node",
+    "verify": "npm run types && npm run check && npm run typecheck && npm test && npm run deploy:dry",
     "dev": "WRANGLER_LOG_PATH=.wrangler-logs wrangler dev --env-file .secrets.local",
     "deploy:dry": "WRANGLER_LOG_PATH=.wrangler-logs wrangler deploy --dry-run",
     "deploy": "WRANGLER_LOG_PATH=.wrangler-logs wrangler deploy",

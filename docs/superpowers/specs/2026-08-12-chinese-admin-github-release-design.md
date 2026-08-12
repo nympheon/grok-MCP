@@ -59,8 +59,8 @@ Durable Object 的持久化 schema、AES-GCM 格式、OAuth 方法和搜索逻�
 
 ## 5. 项目文档
 
-GitHub 根目录文档以 `README.zh.md` 为完整中文主文档，`README.md` 提供英文说明并在
-顶部链接中文文档，`README.ja.md` 保持日文说明。文档必须覆盖：
+根据用户后续要求，GitHub 根目录只维护一份中文 `README.md`；删除原有
+`README.zh.md` 和 `README.ja.md`，不再维护重复翻译。文档必须覆盖：
 
 - 架构、免费资源边界和数据流；
 - ChatGPT URL-token 连接方式；
