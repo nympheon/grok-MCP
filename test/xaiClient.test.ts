@@ -308,7 +308,7 @@ describe("callResponses", () => {
     const assertion = expect(callResponses(validInput(fetchImpl))).rejects.toMatchObject({
       code: "UPSTREAM_TIMEOUT",
     });
-    await vi.advanceTimersByTimeAsync(60_000);
+    await vi.advanceTimersByTimeAsync(180_000);
     await assertion;
   });
 
