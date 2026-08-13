@@ -21,7 +21,7 @@ Cloudflare secret。
 - MCP 协议：仅 [`2026-07-28`](https://blog.modelcontextprotocol.io/posts/2026-07-28/)，逐请求 JSON 响应，不创建旧式会话
 - MCP 工具：仅 `x_search`、`web_search`
 - 状态：类名为 `GrokState`、对象名为 `single-user` 的唯一 SQLite Durable Object
-- 模型：Worker 变量 `GROK_X_SEARCH_MODEL`，默认 `grok-4.5`
+- 模型：Worker 变量 `GROK_X_SEARCH_MODEL`，默认 `grok-4.6`
 - Node.js：22
 - 应用版本：`0.3.x`
 
@@ -112,7 +112,7 @@ xAI Responses API：`query` 写入 `input[0].content`，过滤器和媒体选项
   "ok": true,
   "text": "模型综合搜索结果后生成的回答",
   "citations": ["https://example.com/source"],
-  "model": "grok-4.5"
+  "model": "grok-4.6"
 }
 ```
 
@@ -281,7 +281,7 @@ git push origin main
 `deploy:with-secrets` 或批量 secret 上传。
 
 修改模型时，编辑 `wrangler.jsonc` 中的 `GROK_X_SEARCH_MODEL`，执行门禁后提交到
-`main`。空值或格式非法的模型名会回退到 `grok-4.5`；格式合法但上游不支持的模型
+`main`。空值或格式非法的模型名会回退到 `grok-4.6`；格式合法但上游不支持的模型
 会由 xAI 返回错误。直接在 Dashboard 修改普通变量可能被后续仓库部署覆盖，因此
 仓库配置是长期事实来源。
 

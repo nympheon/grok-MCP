@@ -27,11 +27,11 @@ afterEach(() => {
 });
 
 describe("resolveModel", () => {
-  it("uses a safe configured model and defaults to grok-4.5", () => {
+  it("uses a safe configured model and defaults to grok-4.6", () => {
     expect(resolveModel(" grok-4.5 ")).toBe("grok-4.5");
     expect(resolveModel("grok-future-stable")).toBe("grok-future-stable");
-    expect(resolveModel("untrusted/model")).toBe("grok-4.5");
-    expect(resolveModel()).toBe("grok-4.5");
+    expect(resolveModel("untrusted/model")).toBe("grok-4.6");
+    expect(resolveModel()).toBe("grok-4.6");
   });
 });
 

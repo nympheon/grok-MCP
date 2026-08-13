@@ -8,7 +8,7 @@
   "workers_dev": true,
   "upload_source_maps": true,
   "vars": {
-    "GROK_X_SEARCH_MODEL": "grok-4.5"
+    "GROK_X_SEARCH_MODEL": "grok-4.6"
   },
   "secrets": {
     "required": ["MCP_URL_TOKEN", "ADMIN_URL_TOKEN", "TOKEN_ENCRYPTION_KEY"]

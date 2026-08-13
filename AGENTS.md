@@ -15,7 +15,7 @@
 - SQLite 初始迁移标签：`v1`；
 - MCP 表面：只能有 `x_search`、`web_search`；
 - MCP wire revision：仅 `2026-07-28`，每个请求返回一个 JSON 响应；
-- 默认模型：Worker 变量 `GROK_X_SEARCH_MODEL`，当前为 `grok-4.5`；
+- 默认模型：Worker 变量 `GROK_X_SEARCH_MODEL`，当前为 `grok-4.6`；
 - xAI 输出文本：只接受当前 REST 结构
   `output[].content[].output_text.text`。
 

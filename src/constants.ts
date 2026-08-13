@@ -23,4 +23,4 @@ export const MAX_QUERY_LENGTH = 8_000;
 export const MAX_X_HANDLE_FILTER_ENTRIES = 20;
 export const MAX_WEB_DOMAIN_FILTER_ENTRIES = 5;
 
-export const DEFAULT_MODEL = "grok-4.5";
+export const DEFAULT_MODEL = "grok-4.6";

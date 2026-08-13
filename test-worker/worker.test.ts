@@ -334,7 +334,7 @@ describe("Worker HTTP boundary", () => {
       ok: true,
       text: "answer:structured result",
       citations: ["https://example.com/source"],
-      model: "grok-4.5",
+      model: "grok-4.6",
     };
 
     expect(response.result?.isError).toBe(false);
